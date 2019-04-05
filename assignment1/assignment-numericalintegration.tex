@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage{helvet}
+
+\usepackage{listings}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{graphics}
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\newcommand{\question}{{\noindent \bf Question: }}
+\newcommand{\todo}[1]{{\bf #1}}
+
+\title{\vspace{-3em}Assignment: basic programming\\Numerical integration}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+The purpose of this assignment is for you to 
+\begin{itemize}
+\item get started back in writing C or C++ code
+\item get familiar with running code on mamba
+\item write a simple program that will be reused in future assignments
+\end{itemize}
+
+As usual all time measurements are to be performed on the cluster.
+
+\section{Preliminary: running anything on mamba}
+
+\question Write a code that simply prints the name of the current
+machine. You can obtain that name using function \texttt{gethostname}
+(check man page for details). Write that code in file
+\texttt{prelim.cpp} or \texttt{prelim.c}. You can test this works by compiling it with \texttt{make prelim}.
+
+\question Run that code on a mamba compute node using
+\texttt{./queue\_prelim.sh}. This will start a PBS job. Once this job
+has completed, a file \texttt{preliminary\_answer} will be created
+containing the name of the compute node the command has run on.
+
+\section{Numerical Integration}
+
+Numerical integration is often used when one wants to compute
+$\int_{a}^{b} f(x) dx$ but one does not know how to find a primitive
+of $f$. You can use the definition of integration to obtain a simple
+approximation by computing $\frac{b-a}{n} \sum_{i=0}^{n-1}
+f\left(a+(i+.5)*\frac{b-a}{n}\right)$. $n$ is often called
+the number of point in the approximation. (This is the numerical
+integration using the rectangle rule. You can learn more at
+\url{https://en.wikipedia.org/wiki/Numerical_integration}.)
+
+{\bf Note that you do not need to understand numerical
+integration.} The problem is just to evaluate $\frac{b-a}{n} \sum_{i=0}^{n-1}
+f \left( a+(i+.5)*\frac{b-a}{n} \right)$ for a particular
+combination of $a$, $b$, $n$, and $f$.
+
+The provided package contains multiple functions to integrate in
+\texttt{libfunctions.a}. The functions are named \texttt{f1},
+\texttt{f2}, \texttt{f3}, \texttt{f4}, and take two parameters: the
+first one is a floating point number $x$ where the function is
+computed, and the second one is $intensity$ an operation
+intensity. The second parameter is used to make the function take more
+time.
+
+The code you should write should take 5 command line parameters:
+\begin{itemize}
+\item \texttt{functionid}, an integer to know which function to integrate. If \texttt{functionid} is 1, integrate \texttt{f1}
+\item \texttt{a}, the lower bound of the integral
+\item \texttt{b}, the upper bound of the integral
+\item \texttt{n}, an integer which is the number of points to compute the approximation of the integral
+\item \texttt{intensity}, an integer which is the second parameter to give the the function to integrate
+\end{itemize}
+
+The code should compute the integral and output the value of the
+integral on \texttt{stdout} (and nothing else). The code should also
+measure the time it took to compute the integral and write that time
+(in seconds) to \texttt{stderr}.
+
+\question Write the described code. You can use the provided archive
+as a template. It contain a template code and makefile to help you
+write the code. You should only need to complete
+\texttt{main.cpp}. You should be able to test if your code is correct
+using \texttt{make test}.
+
+\question Report the time it takes on the cluster to integrate
+\texttt{f1} using different number of points (from $10^1$ to $10^8$)
+and with different operation intensity (from $1$ to $10^4$). To help
+you in that task, you should be able to run \texttt{make bench} which
+should run the benchmark in a PBS job. Once that job is completed, you
+can draw charts using \texttt{make plot} which reports time in a pdf
+file \texttt{plot/time\_plots.pdf}.
+
+Make sure you keep this code around as it is your base for comparisons
+in future assignments. Also note that a run with $10^8$ points and an
+operation intensity of $1,000$ could take an hour to run.
+
+\end{document}
