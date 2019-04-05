@@ -1,4 +1,4 @@
-Assignment 3: Loop scheduler with pthreads
+# Assignment 3: Loop scheduler with pthreads
 The purpose of this assignment is for you to learn more about
 • creating threads and passing parameters to them,
 • loop schedulers,
